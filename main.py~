@@ -1,0 +1,8 @@
+from chap1 import chap1_test as testone
+from chap2 import chap2_test as testtwo
+from chap3.chap3_test import test
+
+print testone.test()
+print testtwo.test()
+print test()
+

@@ -7,7 +7,7 @@ try:
     # from lskdj import laskd
 except Exception as err:
     # print err
-    from ..chap2.chap2_test import test as testtwo # this works from outside test_module with Desktop as path.
+    from ..chap2.chap2_test import test as testtwo # this works from outside test_module with/without Desktop as path.
     # print "test"
 else:
     print "Yay! It worked!"
@@ -15,3 +15,5 @@ else:
 
 def test():
     print "this is chap3_test.py"
+
+test()

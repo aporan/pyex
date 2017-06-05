@@ -2,7 +2,7 @@ import sys
 print "NAME:", sys.modules[__name__]
 
 try: 
-    from test_module.chap2 import chap2_test
+    from pyex.pyimports.chap2 import chap2_test
     # from test_module import main
     # from lskdj import laskd
 except Exception as err:

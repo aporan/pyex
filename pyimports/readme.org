@@ -6,7 +6,7 @@
 
    [[https://stackoverflow.com/questions/3402168/permanently-add-a-directory-to-pythonpath][Stackoverflow link for exporting]]
 
-*Note*: __init__ files are required in each project folder.
+*Note*: =__init__.py= files are required in each project folder.
 
 
 

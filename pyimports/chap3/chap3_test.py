@@ -1,8 +1,9 @@
 import sys
 print "NAME:", sys.modules[__name__]
 
-try: 
+try:
     from pyex.pyimports.chap2 import chap2_test
+    chap2_test.test()
     # from test_module import main
     # from lskdj import laskd
 except Exception as err:
@@ -16,4 +17,3 @@ else:
 def test():
     print "this is chap3_test.py"
 
-test()

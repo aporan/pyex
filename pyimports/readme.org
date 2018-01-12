@@ -1,0 +1,13 @@
+* Imports in Python 2
+
+  Import handling in python 2 for nested folder structure. For this to work, the project path is needed to be exported.
+
+** Export to PYTHONPATH
+
+   [[https://stackoverflow.com/questions/3402168/permanently-add-a-directory-to-pythonpath][Stackoverflow link for exporting]]
+
+*Note*: =__init__.py= files are required in each project folder.
+
+
+
+

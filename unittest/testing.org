@@ -1,0 +1,179 @@
+* Test Driven Development
+
+** What is it?
+
+   > It is /not/ about _testing_ code.
+   > It is /not/ about code coverage.
+
+   > It is about *development* of better code.
+   > It is about *design* of better code.
+
+   > safety check comes naturally.
+
+** A Simple Case of Development: (R)ed-(G)reen-(R)ed Cycle
+
+   Suppose we want to create a function which checks if a given number is Even.
+
+   #+BEGIN_SRC python
+   def is_even(n):
+       pass
+   #+END_SRC
+
+** An Date Matcher:
+
+*** What do we need? How do we start?
+
+    No real idea. How about we just write a simple date matcher.
+
+    #+BEGIN_SRC
+    def test_foo(self):
+        p = DatePattern(2018, 1, 12)
+        d = datetime.date(2018, 1, 12)
+        self.assertFalse(p.matches(d))
+    #+END_SRC
+
+    Fails.
+
+    #+BEGIN_SRC python
+    def matches(self, date):
+        self.date == date
+    #+END_SRC
+
+    Passes.
+
+    Things probably will turn out differently, for example, i might need more stuff, but let's not put all the things at the table.
+
+    The process will show you ways.
+
+    demo: ot rt
+
+*** Are we done? Does this work?
+
+    Let's write *another* test to verify.
+
+    #+BEGIN_SRC python
+    def test_date_year_wildcard(self):
+         p = DatePattern(0, 1, 10)
+         d = datetime.date(2018, 1, 10)
+         self.assertTrue(p.matches(d))
+    #+END_SRC
+
+    Fails.
+
+    #+BEGIN_SRC python
+    def __init__(self, year, month, day):
+        self.year = year
+        self.month = month
+        self.day = day
+
+    def matches(self, date):
+        return ((self.year and self.year == date.year or True) and
+                self.month == date.month and
+                self.day == date.day)
+    #+END_SRC
+
+    Passes.
+
+    Although, it already looks like it needs some refactoring.
+
+*** Are there more things to check?
+    Let's write *another* test.
+
+    #+BEGIN_SRC python
+    def test_date_month_wildcard(self):
+         p = DatePattern(2018, 0, 10)
+         d = datetime.date(2018, 1, 10)
+         self.assertTrue(p.matches(d))
+    #+END_SRC
+
+    Fails.
+
+    #+BEGIN_SRC python
+    def __init__(self, year, month, day):
+        self.year = year
+        self.month = month
+        self.day = day
+
+    def matches(self, date):
+        return ((self.year and self.year == date.year or True) and
+                (self.month and self.month == date.month or True) and
+                self.day == date.day)
+    #+END_SRC
+
+    Passes.
+
+    Same for day.
+
+    Done?
+*** We need to check which weekday it is.
+
+    Let's write *another* test.
+
+    #+BEGIN_SRC python
+    def test_matches_weekday(self):
+        p = DatePattern(0, 0, 0, 2) # 2 is Wednesday
+        d = datetime.date(2004, 9, 29)
+        self.failUnless(p.matches(d))
+    #+END_SRC
+
+    Fails.
+
+    Our class does not handle a weekday scenario. Well, Let's modify.
+
+
+    #+BEGIN_SRC python
+    def __init__(self, year, month, day, weekday=0):
+        self.year = year
+        self.month = month
+        self.day = day
+        self.weekday = weekday
+
+    def matches(self, date):
+        return ((self.year and self.year == date.year or True) and
+                (self.month and self.month == date.month or True) and
+                self.day and self.day == date.day or True and
+                (self.weekday and self.weekday == date.weekday() or True))
+    #+END_SRC
+
+    The code is messy, but it functions.
+
+*** Seems like everything works.
+
+    when we check for a date that should not match ...
+
+    #+BEGIN_SRC python
+    def test_date_patten_does_not_match(self):
+        p = DatePattern(2018, 1, 12)
+        d = datetime.date(2018, 1, 11)
+        self.assertFalse(p.matches(d))
+    #+END_SRC
+
+    Fails. What's wrong? The code seems to complicated, let's refactor.
+
+    We could've refactored inside matches, but it seemed more neater to break it like this.
+
+    #+BEGIN_SRC python
+    def matches(self, date):
+        return (self.yearMatches(date) and
+                self.monthMatches(date) and
+                self.dayMatches(date) and
+                self.weekdayMatches(date))
+
+    def yearMatches(self, date):
+        if not self.year: return True
+        return self.year == date.year
+
+    def monthMatches(self, date):
+        if not self.month: return True
+        return self.month == date.month
+
+    def dayMatches(self, date):
+        if not self.day: return True
+        return self.day == date.day
+
+    def weekdayMatches(self, date):
+        if not self.weekday: return True
+        return self.weekday == date.weekday()
+    #+END_SRC
+
+    Passes.

@@ -5,7 +5,7 @@
    > It is /not/ about _testing_ code.
    > It is /not/ about code coverage.
 
-   > It is about *development* of better code.
+   > It is about *developing* of /better/ code.
    > It is about *design* of better code.
 
    > safety check comes naturally.
@@ -21,11 +21,15 @@
 
 ** An Date Matcher:
 
+   An application which compares any dates, even wildcard entries.
+
 *** What do we need? How do we start?
 
     No real idea. How about we just write a simple date matcher.
 
-    #+BEGIN_SRC
+    Note: Add DatePattern Class
+
+    #+BEGIN_SRC python
     def test_foo(self):
         p = DatePattern(2018, 1, 12)
         d = datetime.date(2018, 1, 12)
@@ -36,7 +40,7 @@
 
     #+BEGIN_SRC python
     def matches(self, date):
-        self.date == date
+        self.date == date   # p == d
     #+END_SRC
 
     Passes.
@@ -113,7 +117,7 @@
     def test_matches_weekday(self):
         p = DatePattern(0, 0, 0, 2) # 2 is Wednesday
         d = datetime.date(2004, 9, 29)
-        self.failUnless(p.matches(d))
+        self.assertTrue(p.matches(d))
     #+END_SRC
 
     Fails.
